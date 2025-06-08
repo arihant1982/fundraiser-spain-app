@@ -55,6 +55,5 @@ for i, v in enumerate([recibido]):
 st.pyplot(fig)
 
 st.markdown("---")
-st.markdown("✅ La página se actualiza automáticamente cada vez que se abre.
+st.markdown("✅ La página se actualiza automáticamente cada vez que se abre.")
 
-🔐 Asegúrate de colocar tu archivo `credenciales.json` en esta carpeta.")
