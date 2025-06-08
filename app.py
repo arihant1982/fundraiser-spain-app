@@ -11,6 +11,7 @@ scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/au
 
 if "gcp_service_account" in st.secrets:
     sa_dict = dict(st.secrets["gcp_service_account"])
+    sa_dict["private_key"] = sa_dict["private_key"].replace("\\n", "\n")
     with tempfile.NamedTemporaryFile(delete=False, suffix=".json", mode="w") as tmp:
         json.dump(sa_dict, tmp)
         cred_file = tmp.name
