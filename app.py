@@ -3,10 +3,21 @@ from datetime import datetime, date
 import gspread
 from oauth2client.service_account import ServiceAccountCredentials
 import matplotlib.pyplot as plt
+import json
+import tempfile
 
-# --- Autenticación Google Sheets ---
+# --- Autenticación Google Sheets desde secrets o archivo local ---
 scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
-creds = ServiceAccountCredentials.from_json_keyfile_name("credenciales.json", scope)
+
+if "gcp_service_account" in st.secrets:
+    sa_dict = st.secrets["gcp_service_account"]
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".json") as tmp:
+        json.dump(sa_dict, tmp)
+        cred_file = tmp.name
+else:
+    cred_file = "credenciales.json"
+
+creds = ServiceAccountCredentials.from_json_keyfile_name(cred_file, scope)
 client = gspread.authorize(creds)
 
 # --- Leer la hoja ---
@@ -56,4 +67,3 @@ st.pyplot(fig)
 
 st.markdown("---")
 st.markdown("✅ La página se actualiza automáticamente cada vez que se abre.")
-
