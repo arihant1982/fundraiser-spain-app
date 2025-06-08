@@ -5,14 +5,18 @@ from oauth2client.service_account import ServiceAccountCredentials
 import matplotlib.pyplot as plt
 import json
 import tempfile
+import toml
 
 # --- Autenticación Google Sheets desde secrets o archivo local ---
 scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
 
 if "gcp_service_account" in st.secrets:
-    sa_dict = {key: st.secrets["gcp_service_account"][key] for key in st.secrets["gcp_service_account"]}
-    with tempfile.NamedTemporaryFile(delete=False, suffix=".json") as tmp:
-        json.dump(sa_dict, tmp)
+    # Convertimos st.secrets a dict puro con toml
+    sa_dict = toml.loads(st.secrets.to_toml())["gcp_service_account"]
+    sa_json = json.dumps(sa_dict)
+
+    with tempfile.NamedTemporaryFile(delete=False, suffix=".json", mode="w") as tmp:
+        tmp.write(sa_json)
         cred_file = tmp.name
 else:
     cred_file = "credenciales.json"
