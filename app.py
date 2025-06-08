@@ -10,8 +10,7 @@ import tempfile
 scope = ["https://spreadsheets.google.com/feeds", "https://www.googleapis.com/auth/drive"]
 
 if "gcp_service_account" in st.secrets:
-    sa_json_str = str(st.secrets["gcp_service_account"])
-    sa_dict = json.loads(sa_json_str.replace("'", '"'))
+    sa_dict = {key: st.secrets["gcp_service_account"][key] for key in st.secrets["gcp_service_account"]}
     with tempfile.NamedTemporaryFile(delete=False, suffix=".json") as tmp:
         json.dump(sa_dict, tmp)
         cred_file = tmp.name
