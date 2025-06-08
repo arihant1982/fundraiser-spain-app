@@ -22,7 +22,7 @@ creds = ServiceAccountCredentials.from_json_keyfile_name(cred_file, scope)
 client = gspread.authorize(creds)
 
 # --- Leer la hoja ---
-sheet = client.open("Midtown Spain Set Up Form").sheet1
+sheet = client.open("1CVYrslrQqyyp2VhwHJAMbg1h96NIS4VpUUM-O2ok54k").sheet1
 data = sheet.get_all_values()
 
 # --- Extraer los datos relevantes ---
